@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fancy Auto-Swiping Product Carousel</title>
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.4.1/swiper-bundle.min.css" />
+
+    <style>
+        /* General Page Styles */
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            text-align: center;
+        }
+        .banner-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Swiper Container */
+        .swiper-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding-bottom: 50px;
+            position: relative;
+        }
+
+        /* Product Cards */
+        .swiper-slide {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease-in-out;
+            text-align: center;
+            overflow: hidden;
+        }
+        .swiper-slide:hover {
+            transform: translateY(-8px);
+        }
+
+        /* Product Image */
+        .product-image-container {
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .product-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        /* Product Info */
+        .product-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 8px;
+            height: 44px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .product-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e44d26;
+        }
+
+        /* Navigation Buttons */
+        .swiper-button-next, .swiper-button-prev {
+            color: white;
+            background: rgba(0, 0, 0, 0.6);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            --swiper-navigation-size: 22px;
+        }
+        .swiper-button-next:hover, .swiper-button-prev:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Pagination */
+        .swiper-pagination-bullet-active {
+            background-color: #e44d26;
+        }
+    </style>
+</head>
+
+<body>
+    <br>
+
+    <div class="banner-title">Our Exclusive Products</div>
+    
+    
+    <!-- Swiper Container -->
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <?php 
+            $products = $this->getProducts(); 
+            if (!empty($products)) {
+                foreach ($products as $product) { ?>
+                    <div class="swiper-slide">
+                        <div class="product-image-container">
+                            <a href="<?php echo $this->getUrl('catalog/product/view'); ?>/?id=<?php echo $product->getProductId(); ?>">
+                                <img src="<?php echo $product->getImage(); ?>" 
+                                    alt="<?php echo $product->getName(); ?>" 
+                                    class="product-image">
+                            </a>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-title"><?php echo $product->getName(); ?></div>
+                            <div class="product-price">₹ <?php echo $product->getPrice(); ?></div>
+                        </div>
+                    </div>
+                <?php } 
+            } else { ?>
+                <div class="swiper-slide">
+                    <p>No products available.</p>
+                </div>
+            <?php } ?>
+        </div>
+
+        <!-- Navigation Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+
+        <!-- Pagination -->
+        <div class="swiper-pagination"></div>
+    </div><br>
+    <div class="banner-title">Featured Products</div>
+    <a href="<?php echo $this->getUrl('catalog/product/list'); ?>" class="btn btn-outline-dark">
+                                <i class="fas fa-user me-1"></i> All Products
+                            </a>
+            </div>
+    <!-- Swiper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.4.1/swiper-bundle.min.js"></script>
+
+    <script>
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 4,
+            spaceBetween: 20,
+            loop: true, // Enables infinite loop
+            autoplay: {
+                delay: 2000, // Auto-scrolls every 2 seconds
+                disableOnInteraction: false
+            },
+            speed: 800, // Controls slide transition speed
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                576: { slidesPerView: 1 },
+                768: { slidesPerView: 2 },
+                992: { slidesPerView: 3 },
+                1200: { slidesPerView: 4 }
+            }
+        });
+    </script>
+
+</body>
+</html>

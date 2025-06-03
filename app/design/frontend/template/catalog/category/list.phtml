@@ -1,0 +1,71 @@
+     
+        <?php $data = ($this->getCategory());?>
+    </pre>
+
+
+
+    <div class="col-md-2">
+        <a class="add-new" href="?m=admin&v=category&a=addCategory">add category</a>
+    </div>
+   
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Product_Count</th>
+            <th>Created_at</th>
+            <th>Updated_at</th>
+            <th>Visibility</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+
+        <?php foreach ($data as $cat): ?>
+        <tr>
+            <td>
+                <?php echo $cat->getCategoryId(); ?>
+            </td>
+            <td>
+                <?php echo $cat->getName(); ?>
+            </td>
+            <td>
+                <?php echo $cat->getDescription(); ?>
+            </td>
+            <td>
+                <img src="<?php echo $cat->getImage(); ?>" alt="Category Image" width="100" height="100" style="border-radius: 5px;">
+                <!-- <?php echo $cat->getImage(); ?> -->
+            </td>
+            <td>
+                <?php echo $cat->getProductCount(); ?>
+            </td>
+            <td>
+                <?php echo $cat->getCreatedAt(); ?>
+            </td>
+            <td>
+                <?php echo $cat->getUpdatedAt(); ?>
+            </td>
+            <td>
+                <?php echo $cat->getVisibility(); ?>
+            </td>
+            
+            <td>
+                        <a href='?m=Admin&v=Product&a=view&updateid=<?php echo $cat->getCategoryId(); ?>'>
+                            <!-- <i class='fa fa-edit' style="color:blue;"></i> -->
+                             <button>update</button>
+                        </a>
+                    </td>
+                    <td>
+                    <a href="?m=admin&v=product&a=deleteProduct&id=<?php echo $cat->getCategoryId(); ?>"
+                        onclick="return confirm('Are you sure you want to delete this record?')">
+                        <button>Delete</button>
+
+                    </a>
+                    </td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+    
+
+</html>

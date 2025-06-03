@@ -1,0 +1,61 @@
+<?php 
+
+$data = $this->listdata();
+$this->getChildHtml("toolbar");
+?>
+
+        <div class="col-md-2">
+            <br>
+            <a class="export-csv" href="http://localhost/ecommerecemvc/admin/category_index/exportCsv">Export to CSV</a>
+            <br>
+        <a class = "add-new" href="http://localhost/ecommerecemvc/admin/category_index/new">Add Category</a>
+        <a class = "add-new" href="<?php echo $this->getUrl('*/*/exportCsv'); ?>">Export to CSV</a>
+        
+    </div>
+        <table>
+            <tr>
+                <th>Category_id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Parrent Category</th>
+                <th>Created at</th>
+                <th>Updated at</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+
+            <?php foreach ($data as $product): ?>
+                <tr>
+                    <td><?php echo $product->getCategoryId(); ?></td>
+                    <td><?php echo $product->getName(); ?></td>
+                    <td><?php echo $product->getDescription(); ?></td>
+                   
+                    <td><?php echo $product->getParentId(); ?></td>
+                    <td><?php echo $product->getCreatedAt();?></td>
+                    <td><?php echo $product->getUpdatedAt(); ?></td>
+                    
+                    <td>
+                        <a href='./new/?id=<?php echo htmlspecialchars($product->getCategoryId()); ?>'>
+                            <!-- <i class='fa fa-edit' style="color:blue;"></i> -->
+                             <button>update</button>
+                        </a>
+                    </td>
+                    <td>
+                    <a href='./delete/?id=<?php echo htmlspecialchars($product->getCategoryId()); ?>'>
+                       
+                        <!-- <i class='fas fa-trash' style="color:red;"></i> -->
+                        <button>Delete</button>
+
+                    </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+   
+
+
+</pre>
+
+
+
+    

@@ -1,0 +1,118 @@
+<?php
+$data = $this->buildCommentTree();
+$head = count($data);
+$root = $this->getTicket()->getTitle();
+$maxDepth = $this->maxDepth();
+$id = $this->getId();
+$mr = $this->makeRow();
+// echo "<pre>";
+// print_r($mr);
+// echo "</pre>";
+// die;
+?>
+
+
+<style>
+    table,
+    td,
+    th {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    td,
+    th {
+        padding: 8px;
+        vertical-align: top;
+        min-width: 150px;
+        text-align: left;
+    }
+    .input-container {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-top: 5px;
+    }
+    .control-panel {
+        margin-bottom: 15px;
+    }
+    .add-btn {
+        margin-top: 6px;
+        padding: 4px 10px;
+    }
+    .comment-input {
+        margin-top: 6px;
+        padding: 4px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+</style> 
+
+<span id="root" class="d-none"><?php echo $root ?></span>
+<span id="ticketId" class="d-none"><?php echo $id ?></span>
+<span id="commentsData" class="d-none"><?php ?></span>
+
+<div>
+    <button id="saveAllBtn">Save All</button>
+</div>
+<div>
+    <a href="<?php echo $this->getUrl("*/*/*")?>/?flag=1&ticket_id=<?php echo Mage::getModel('core/request')->getQuery("ticket_id")?>"> <button>Show All Comments</button>
+    </a>
+</div>
+<div>
+    <a href="<?php echo $this->getUrl("*/*/*")?>/?ticket_id=<?php echo Mage::getModel('core/request')->getQuery("ticket_id")?>"> <button>Show only active Comments</button>
+    </a>
+</div>
+
+<div>
+<a href="<?php echo $this->getUrl("*/*/*")?>/?flag=1&level=5&ticket_id=<?php echo Mage::getModel('core/request')->getQuery("ticket_id")?>">
+<button>Show last five level Comments</button>
+</a>
+</div>
+
+<div>
+<a href="<?php echo $this->getUrl("*/*/*")?>/?level=5&ticket_id=<?php echo Mage::getModel('core/request')->getQuery("ticket_id")?>">
+<button>Show last five level active Comments</button>
+</a>
+</div>
+
+<table id="commentTable">
+    <thead id="tableHead">
+        <!-- <th>Root</th> -->
+        <tr>
+            <?php for ($i = 0; $i < $maxDepth; $i++): ?>
+                <th>level<?php echo $i + 1; ?></th>
+            <?php endfor; ?>
+        </tr>
+    </thead>
+    <tbody id="qaBody">
+        <?php if (count($mr) > 0) : ?>
+            <tr>
+                <?php
+                foreach ($mr[count($mr) - 1] as $key => $value): ?>
+                    <?php if ($value['rowstart'] == 1): ?>
+            <tr>
+            <?php endif; ?>
+        
+            <td class="level-<?php echo $value['depth']?>"rowspan="<?php echo $value['rowspan']; ?>" data-id=<?php echo $key; ?> style = "<?php echo $value['is_complete']==1 ? 'background-color:green;':'';?>">
+                <?php echo 'Id:' . $key; ?>
+
+                <br>
+                <?php echo $value['comment']; ?>
+                <?php echo $value['depth'];?>
+                <?php if ($value['depth'] == $maxDepth && $value['is_complete']!=1): ?>
+                    complate<input type="checkbox" value="1" id="iscomplete" class="complate-comment"
+                     data-parentid = "<?php echo $value['parent_id'];?>" data-commentid = "<?php echo $key;?>">
+            <td class="addComment"><button class="add-btn">Addtobutton</button></td>
+            <?php endif; ?>
+        </td>
+
+        <?php if ($value['rowend'] == 1): ?>
+            </tr>
+        <?php endif; ?>
+
+    <?php endforeach; ?>
+<?php else:  ?>
+    <td class="addComment"><button class="add-btn">Addtobutton</button></td>
+<?php endif; ?>
+    </tbody>
+</table>

@@ -1,0 +1,124 @@
+<?php $Ticket = $this->getTicket();
+$comment = $this->getTicketComment(); 
+$this->buildCommentTree();
+
+?>
+<style>
+    .comment-box {
+        margin-left: 20px;
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-left: 2px dashed #0d6efd;
+        border-radius: 5px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        max-width: 100%;
+    }
+ 
+    .replies {
+        margin-top: 10px;
+        margin-left: 20px;
+    }
+ 
+    textarea {
+        resize: vertical;
+    }
+    td {
+        /* padding-right: 100px; */
+        border: solid 1px lightblue;
+    }
+</style>
+ 
+<h1><?php echo $Ticket->getTicketId() . ' . ' . $Ticket->getTitle() ?></h1>
+<div id="question" class="container bg-white p-4 rounded shadow-sm">
+    <h5>Comments</h5>
+    <input type="hidden" id="ticketId" value="<?php echo $Ticket->getTicketId() ?>" />
+    <button class="btn btn-primary btn-sm" onclick="addComment(this)">Add Comment</button>
+    <button class="btn btn-success btn-sm" onclick="saveCommentToDatabase()">Save Button</button>
+    <table class="replies mt-3"></table>
+</div>
+ 
+<script>
+    // function addComment(button) {
+    //     const inputContainer = document.createElement("tr");
+    //     inputContainer.className = "comment-box";
+ 
+    //     const textarea = document.createElement("textarea");
+    //     textarea.placeholder = "Write your comment...";
+    //     textarea.className = "form-control mb-2";
+    //     textarea.rows = 3;
+    //     textarea.name = "comment";
+ 
+    //     inputContainer.appendChild(textarea);
+ 
+    //     const repliesContainer = button ?
+    //         button.parentElement.querySelector(".replies") :
+    //         document.querySelector("#question .replies");
+ 
+    //     repliesContainer.appendChild(inputContainer);
+    // }
+ 
+    // function saveCommentToDatabase() {
+    //     const ticketId = document.getElementById('ticketId').value;
+    //     const allTextareas = document.querySelectorAll("#question textarea");
+    //     const allReplyButtons = document.querySelectorAll("button");
+    //     allReplyButtons.forEach(btn => {
+    //         if (btn.textContent === "+ Add Reply") {
+    //             btn.style.display = "none";
+    //         }
+    //     });
+    //     allTextareas.forEach(textarea => {
+    //         const text = textarea.value.trim();
+    //         if (text === "") return;
+ 
+    //         const currentCommentBox = textarea.closest(".comment-box");
+ 
+    //         // Find parent comment-box (if nested)
+    //         const parentCommentBox = currentCommentBox.parentElement.closest(".comment-box");
+    //         const parentId = parentCommentBox?.getAttribute('data-comment-id') || null;
+ 
+    //         // Replace textarea with the comment text
+    //         currentCommentBox.innerHTML = "";
+ 
+    //         const commentText = document.createElement("p");
+    //         commentText.textContent = text;
+    //         currentCommentBox.appendChild(commentText);
+ 
+    //         const addReplyBtn = document.createElement("button");
+    //         addReplyBtn.textContent = "+ Add Reply";
+    //         addReplyBtn.className = "btn btn-outline-primary btn-sm me-2";
+    //         addReplyBtn.onclick = function () {
+    //             addComment(this);
+    //         };
+    //         currentCommentBox.appendChild(addReplyBtn);
+ 
+    //         const nestedReplies = document.createElement("td");
+    //         nestedReplies.className = "replies";
+    //         currentCommentBox.appendChild(nestedReplies);
+ 
+    //         // Send to backend
+    //         $.ajax({
+    //             url: 'http://localhost/ecommerecemvc/admin/replay_Index/commentsave',
+    //             type: 'POST',
+    //             data: {
+    //                 parent_id: parentId,
+    //                 ticket_id: ticketId,
+    //                 comment: text
+    //             },
+    //             success: function (response) {
+    //                 console.log("Comment saved. ID:", response);
+ 
+    //                 // Store the returned comment ID as an attribute
+    //                 currentCommentBox.setAttribute("data-comment-id", response);
+    //             },
+    //             error: function () {
+    //                 console.error("Error saving comment.");
+    //             }
+    //         });
+    //     });
+ 
+    //     // Hide main "Add Comment" button
+    //     document.querySelector("#question button.btn-primary").style.display = "none";
+    // }
+</script>

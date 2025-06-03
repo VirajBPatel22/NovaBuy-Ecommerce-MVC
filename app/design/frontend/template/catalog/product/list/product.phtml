@@ -1,0 +1,34 @@
+<?php
+$data1 = $this->getProduct();
+$mediaBaseUrl = Mage::getBaseUrl();
+$datafilter = $this->filterdata();
+$category = $this->getcategoryname();
+?>
+<div class="product-section">
+            <div id="product-container" class="container">
+                <?php
+                $count = 0;
+                $url = Mage::getBaseUrl();
+                foreach ($data1 as $productObj):
+                    $productName = htmlspecialchars($productObj->getName(), ENT_QUOTES, 'UTF-8');
+                    $productPrice = number_format($productObj->getPrice(), 2);
+                    $productImage = $mediaBaseUrl . $productObj->getImage();
+                    if ($count % 3 === 0) echo '<div class="row">';
+                ?>
+                    <div class="product-card">
+                        <img src="<?php echo $productImage; ?>" alt="<?php echo $productName; ?>">
+                        <h3><?php echo $productName; ?></h3>
+                        <p class="price">Rs. <?php echo $productPrice; ?></p>
+                        <a href="<?php echo $url; ?>Catalog/Product/view/?id=<?php echo $productObj->getProductId(); ?>">
+                            <button class="view-btn">View Product</button>
+                        </a>
+                    </div>
+                <?php
+                    $count++;
+                    if ($count % 3 === 0) echo '</div>';
+                endforeach;
+                if ($count % 3 !== 0) echo '</div>';
+                ?>
+            </div>
+        </div>
+<?php $this->getChildHtml("Toolbar"); ?>

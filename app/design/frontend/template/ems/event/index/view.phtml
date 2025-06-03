@@ -1,0 +1,60 @@
+<h1>summary of event </h1>
+<table>
+    <tr>
+        <th>
+            total
+        </th>
+        <th>approved</th>
+        <th>pending</th>
+        <th>rejected</th>
+    </tr>
+    <tr>
+        <td><?php echo $this->getTotal()?></td>
+        <td><?php echo $this->getTotalApproved()?></td>
+        <td><?php echo $this->getTotalPending()?></td>
+        <td><?php echo $this->getTotalRejected()?></td>
+    </tr>
+
+</table>
+<h1>events data</h1>
+<table>
+    <tr>
+        <th>reg_id</th>
+        <th>user_id</th>
+        <th>event_id</th>
+        <th>status</th>
+        <th>registered_at</th>
+        <?php foreach($this->getEventRecords() as $event):?>
+        </tr>
+            
+        <td><?php echo $event->getRegId()?></td>
+        <td><?php echo $event->getUserId()?></td>
+        <td><?php echo $event->getEventId()?></td>
+        <td>
+        <?php
+        if($event->getStatus()=='pending'){?>
+
+            <form id = "approved">
+                <input type="hidden" name = "reg_id" value ="<?php echo $event->getRegId() ?>" >
+                <input type="hidden" name = "reg_id" value ="<?php echo $event->getRegId() ?>" >
+                <button>Approved</button>
+            </form>
+                <a href=<?php echo $this->getUrl('*/registration_index/update').'/?id='.$event->getRegId().'&status=approved'; ?>>
+            <button>approved</button>
+            </a>
+                <a href=<?php echo $this->getUrl('*/registration_index/update').'/?id='.$event->getRegId().'&status=rejected'; ?>>
+            <button>reject</button>
+            </a>
+        <?php }
+        else {
+         echo $event->getStatus();
+        }   ?>
+          </td>
+        <td><?php echo $event->getRegisteredAt()?></td>
+    <tr>
+        <?php endforeach;?>
+
+
+    </tr>
+</table>
+

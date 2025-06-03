@@ -1,0 +1,90 @@
+<?php
+$data1 = $this->getProduct();
+$mediaBaseUrl = Mage::getBaseUrl();
+$datafilter = $this->filterdata();
+$category = $this->getcategoryname();
+?>
+ <!-- <script>
+    $(document).ready(function() {
+      // Function to update products via AJAX
+      function updateProducts() {
+          var formData = $("#filter-form").serialize();
+          var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + formData;
+          history.pushState(null, "", newUrl);
+
+          $.ajax({
+              url: newUrl,
+              type: "GET",
+              success: function(response) {
+                  var newProductHtml = $(response).find("#product-container").html();
+                  $("#product-container").html(newProductHtml);
+              },
+              error: function() {
+                  alert("An error occurred while loading products. Please try again.");
+              }
+          });
+      }
+
+      // Automatically update products when any filter checkbox changes
+      $("#filter-form").on("change", "input[name='id[]'], input[name='color[]'], input[name='brand[]']", function() {
+          updateProducts();
+      });
+
+      // Handle "Select All" checkbox changes
+      $("#selectAll").on("change", function() {
+          $(".category").prop("checked", $(this).prop("checked"));
+          updateProducts();
+      });
+    });
+  </script> -->
+  
+<div class="sidebar">
+    <h3>Filters</h3>
+    <form id="filter-form" method="get">
+        <h3>Select Categories</h3>
+        <label>
+            <input type="checkbox" id="selectAll"> Select All
+        </label><br>
+        
+        <!-- Dynamic Category Options -->
+        <?php foreach ($category as $data) { ?>
+            <label>
+                <input type="checkbox" class="category" name="id[]" value="<?php echo $data->getCategoryId(); ?>">
+                <?php echo htmlspecialchars($data->getName()); ?>
+            </label><br>
+        <?php } ?>
+
+        <!-- Color and Brand Filters -->
+        <?php
+        // Build unique, non-empty color and brand arrays.
+        $colors = [];
+        $brands = [];
+        foreach ($datafilter as $detail) {
+            $color = $detail->getColor();
+            if (!empty($color) && !in_array(strtolower($color), $colors)) {
+                $colors[] = strtolower($color);
+            }
+            $brand = $detail->getBrand();
+            if (!empty($brand) && !in_array(strtolower($brand), $brands)) {
+                $brands[] = strtolower($brand);
+            }
+        }
+        ?>
+
+        <label>Color:</label><br>
+        <?php foreach ($colors as $color) { ?>
+            <label>
+                <input type="checkbox" name="color[]" value="<?php echo $color; ?>">
+                <?php echo $color; ?>
+            </label><br>
+        <?php } ?>
+
+        <label>Brand:</label><br>
+        <?php foreach ($brands as $brand) { ?>
+            <label>
+                <input type="checkbox" name="brand[]" value="<?php echo $brand; ?>">
+                <?php echo $brand; ?>
+            </label><br>
+        <?php } ?>
+    </form>
+</div>

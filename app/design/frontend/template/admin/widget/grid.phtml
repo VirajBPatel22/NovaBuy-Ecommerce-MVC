@@ -1,0 +1,51 @@
+<?php
+$columns = $this->getColumns();
+$collection = $this->getCollection()->getdata();
+$this->getChildHtml("toolbar");
+?>
+
+<div class="col-md-2">
+    <br>
+
+    <a class="add-new" href="<?php echo $this->getUrl('*/*/new'); ?>">Add Iteam</a>
+    <a class="add-new" href="<?php echo $this->getUrl('*/*/exportCsv'); ?>">Export to CSV</a>
+
+</div>
+
+<table>
+    <tr>
+
+    
+        <?php
+        // echo "<pre>";
+        // print_r($columns['product_id']);
+        // echo "</pre>";
+        foreach ($columns as $column):; ?>
+            <th><?php echo  $column->getData()['lable'] ?></th>
+        <?php endforeach ?>
+    </tr>
+<!-- <form action="<?php // echo $this->getUrl('*/*/list').'/' ?>" method = "get">
+
+    <?php // foreach ($columns as $key => $column): ?>
+        <th><?php // echo  $column->getfliter()->render() ?></th>
+        <?php // endforeach ?>
+        
+        <th><button type="submit">go</button></th>
+    </form> -->
+
+    <?php foreach ($collection as $data):  ?>
+        <tr>
+            <?php foreach ($columns as $column):?>
+                <td>
+                    <?php 
+                    echo $column->setrow($data->getdata())->render() ?>
+                </td>
+
+
+            <?php endforeach ?>
+            <?php // echo $this->renderValue('edit') 
+            ?>
+        <?php endforeach ?>
+        </tr>
+
+</table>

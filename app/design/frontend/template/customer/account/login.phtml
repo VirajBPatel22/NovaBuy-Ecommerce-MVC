@@ -1,0 +1,225 @@
+<style>
+ /* Isolated Login Form Styling */
+.cl-login-container {
+  max-width: 450px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.cl-login-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* Blue indicator line under title */
+.cl-title-indicator {
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: #3182ce;
+  margin: -15px 0 25px 0;
+}
+
+/* Form styles */
+.cl-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cl-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.cl-form-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #4a5568;
+  margin-bottom: 5px;
+}
+
+.cl-input-wrapper {
+  position: relative;
+}
+
+.cl-form-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cl-form-input:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+}
+
+.cl-form-input::placeholder {
+  color: #a0aec0;
+}
+
+/* Password toggle button - Fixing alignment issues */
+.cl-toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #718096;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  z-index: 2;
+}
+
+.cl-toggle-password:hover {
+  color: #4a5568;
+}
+
+.cl-eye-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+/* Login button */
+.cl-login-button {
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.cl-login-button:hover {
+  background-color: #2b6cb0;
+}
+
+.cl-login-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.3);
+}
+
+/* Form links */
+.cl-form-links {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.cl-form-link {
+  color: #4a5568;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.cl-form-link:hover {
+  color: #3182ce;
+  text-decoration: underline;
+}
+
+.cl-form-divider {
+  color: #cbd5e0;
+}
+
+.cl-form-divider::before {
+  content: '|';
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+  .cl-login-container {
+    margin: 20px 15px;
+    padding: 20px;
+  }
+  
+  .cl-login-title {
+    font-size: 22px;
+  }
+  
+  .cl-form-input {
+    padding: 10px 14px;
+  }
+  
+  .cl-login-button {
+    padding: 12px 16px;
+  }
+}
+</style>
+<div class="cl-login-container">
+    <h2 class="cl-login-title">Customer Login</h2>
+    <span class="cl-title-indicator"></span>
+    
+    <form class="cl-login-form" action="<?php echo $this->getUrl("*/*/validate") ?>" method="POST">
+        <div class="cl-form-group">
+            <label for="email" class="cl-form-label">Email Address</label>
+            <div class="cl-input-wrapper">
+                <input type="email" id="email" name="customer[email]" class="cl-form-input validate-email" placeholder="name@example.com" required>
+            </div>
+        </div>
+        
+        <div class="cl-form-group">
+            <label for="password" class="cl-form-label">Password</label>
+            <div class="cl-input-wrapper">
+                <input type="password" id="password" name="customer[password]" class="cl-form-input" required>
+                <button type="button" class="cl-toggle-password" aria-label="Toggle password visibility">
+                    <svg class="cl-eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="cl-form-actions">
+            <button type="submit" class="cl-login-button">Sign In</button>
+        </div>
+        
+        <div class="cl-form-links">
+            <a href="<?php echo $this->getUrl("customer/account/forgetpassword") ?>" class="cl-form-link">
+                Forgot Password?
+            </a>
+            <span class="cl-form-divider"></span>
+            <a href="<?php echo $this->getUrl("customer/account/registration") ?>" class="cl-form-link">
+                Create an Account
+            </a>
+        </div>
+    </form>
+</div>
+<script>
+document.querySelector('.cl-toggle-password').addEventListener('click', function() {
+    const passwordField = document.getElementById('password');
+    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordField.setAttribute('type', type);
+    
+    // Change the icon when toggled
+    this.querySelector('.cl-eye-icon').innerHTML = type === 'password' 
+        ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>'
+        : '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+});
+    </script>

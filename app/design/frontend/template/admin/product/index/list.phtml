@@ -1,0 +1,71 @@
+<?php 
+
+$data = $this->listdata();
+$this->getChildHtml("toolbar");
+?>
+<br>
+        <div class="col-md-2">
+        <a class = "add-new" href="http://localhost/ecommerecemvc/admin/product_index/new">Add Product</a>
+        <a class = "add-new" href="<?php echo $this->getUrl('*/*/exportCsv'); ?>">Export to CSV</a>
+
+        <div class="export-container">
+            <a href="<?php echo $this->getUrl('*/*/exportCsv'); ?>" class="export-btn">Export to CSV</a>
+        </div>
+       
+    </div>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>sku</th>
+                <th>Price</th>
+                <th>category_id</th>
+                <th>Stock Quantity</th>
+                <th>Created at</th>
+                <th>Updated at</th>
+               
+                <!-- <th>Terms and Conditions</th> -->
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+
+            <?php foreach ($data as $product): ?>
+                <tr>
+                    <td><?php echo $product->getProductId(); ?></td>
+                    <td><?php echo $product->getName(); ?></td>
+                    <td><?php echo $product->getDescription(); ?></td>
+                    <!-- <td>
+                        <img src="../../<?php // echo $product->getImage(); ?>" alt="Product Image" width="100" height="100">
+                    </td> -->
+                    <td><?php echo $product->getSku(); ?></td>
+                    <td><?php echo $product->getPrice(); ?></td>
+                    <td><?php echo $product->getCategoryId();?></td>
+                    <td><?php echo $product->getStockQuantity(); ?></td>
+                    <td><?php echo $product->getCreatedAt(); ?></td>
+                    <td><?php echo $product->getUpdatedAt(); ?></td>
+                    <td>
+                        <a href='./new/?id=<?php echo $product->getProductId(); ?>'>
+                            <!-- <i class='fa fa-edit' style="color:blue;"></i> -->
+                             <button>update</button>
+                        </a>
+                    </td>
+                    <td>
+                    <a href='./delete/?id=<?php echo $product->getProductId(); ?>'>
+                       
+                        <!-- <i class='fas fa-trash' style="color:red;"></i> -->
+                        <button>Delete</button>
+
+                    </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+   
+
+
+</pre>
+
+
+
+    

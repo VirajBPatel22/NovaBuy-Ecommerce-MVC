@@ -1,0 +1,70 @@
+<div class="container my-4">
+    <div class="row">
+
+        <div class="col-md-12">
+            <?php $this->getChildHtml('dashboard_details'); ?>
+            <?php $this->getChildHtml('dashboard_address'); ?>
+
+        </div>
+    </div>
+</div>
+
+<!-- <script>
+    document.getElementById('addAddressBtn').addEventListener('click', function() {
+        document.getElementById('addAddressForm').style.display = 'block';
+        this.style.display = 'none';
+    });
+
+    document.getElementById('cancelAddressBtn').addEventListener('click', function() {
+        document.getElementById('addAddressForm').style.display = 'none';
+        document.getElementById('addAddressBtn').style.display = 'block';
+    });
+</script> -->
+<!-- JavaScript for Handling Add/Edit -->
+<!-- <script>
+    // Add New Address
+    document.getElementById('addAddressBtn').addEventListener('click', function() {
+        document.getElementById('addressForm').style.display = 'block';
+        document.getElementById('addressFormElement').action = '<?php // echo $this->getUrl("customer/account_address/saveAddress") ?>';
+        document.getElementById('addAddressBtn').style.display = 'none';
+        resetForm();
+    });
+
+    // Edit Address
+    document.querySelectorAll('.edit-address').forEach(button => {
+        button.addEventListener('click', function() {
+            document.getElementById('addressForm').style.display = 'block';
+            document.getElementById('addAddressBtn').style.display = 'none';
+            document.getElementById('addressFormElement').action = '<?php // echo $this->getUrl("customer/account_address/editAddress") ?>';
+            
+            // Populate form fields
+            document.getElementById('addressId').value = this.getAttribute('data-id');
+            document.getElementById('street').value = this.getAttribute('data-street');
+            document.getElementById('city').value = this.getAttribute('data-city');
+            document.getElementById('state').value = this.getAttribute('data-state');
+            document.getElementById('zipcode').value = this.getAttribute('data-zipcode');
+            document.getElementById('country').value = this.getAttribute('data-country');
+            document.getElementById('phone').value = this.getAttribute('data-phone');
+
+            // Handle address type
+            if (this.getAttribute('data-type') === 'home') {
+                document.getElementById('type_home').checked = true;
+            } else {
+                document.getElementById('type_office').checked = true;
+            }
+        });
+    });
+
+    // Cancel Form
+    document.getElementById('cancelAddressBtn').addEventListener('click', function() {
+        document.getElementById('addressForm').style.display = 'none';
+        document.getElementById('addAddressBtn').style.display = 'block';
+        resetForm();
+    });
+
+    // Reset Form
+    function resetForm() {
+        document.getElementById('addressFormElement').reset();
+        document.getElementById('addressId').value = '';
+    }
+</script> -->

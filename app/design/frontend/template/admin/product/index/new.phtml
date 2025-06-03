@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>New Product</title>
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .image-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .image-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 5px;
+        }
+
+        .image-wrapper img {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <a class="back" href="<?php echo Mage::getBaseUrl(); ?>admin/product_index/list">
+            <i class="fa fa-arrow-left"></i> Back
+        </a>
+        <?php
+        $product = $this->getProduct();
+        
+        $attributes = $this->getAttribute();
+        ?>
+        <form method="POST" action="<?php echo $this->getUrl('*/*/save'); ?>" enctype="multipart/form-data">
+            <input type="hidden" name="catalog_product[product_id]" value="<?php echo $product->getProductId(); ?>">
+
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="catalog_product[name]" required pattern="^[A-Za-z][A-Za-z ]*$"
+                    value="<?php echo $product->getName(); ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="sku">SKU:</label>
+                <input type="text" id="sku" name="catalog_product[sku]"
+                    value="<?php echo $product->getSku(); ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="catalog_product[description]" required><?php echo $product->getDescription(); ?></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="catalog_product[price]" min="0"
+                    value="<?php echo $product->getPrice(); ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="stock_quantity">Stock Quantity:</label>
+                <input type="number" id="stock_quantity" name="catalog_product[stock_quantity]" min="0"
+                    value="<?php echo $product->getStockQuantity(); ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="category_id">Category:</label>
+                <select name="catalog_product[category_id]" id="category_id">
+                    <?php
+                    $categories = $this->getCategory();
+                    foreach ($categories as $cate) {
+                    ?>
+                        <option value="<?php echo $cate->getCategoryId(); ?>">
+                            <?php echo $cate->getName(); ?>
+                        </option>
+                    <?php } ?>
+                </select>
+            </div>
+
+            <hr>
+
+            <label for="attribute_data">Attribute Data</label>
+            <div class="form-group">
+                <?php
+                $attridata = $this->getAttridata();
+                $attributes = $this->getAttribute(); // Fetch all attributes from DB
+                if (!empty($attridata)) {
+                    foreach ($attridata as $attribute) {
+                        $attributeId = $attribute->getAttributeId();
+                        $attributeValue = $attribute->getValue();
+                        $attributedata = Mage::getModel('catalog/attribute')->load($attributeId);
+                        $attributeName = $attributedata->getName();
+                        $attributeType = $attributedata->getType();
+                ?>
+                        <div class="form-group">
+                            <label><?php echo ucfirst($attributeName); ?>:</label>
+                            <?php if ($attributeType == 'text') { ?>
+                                <input type="text" name="catalog_product[<?php echo $attributeName; ?>]" value="<?php echo $attributeValue; ?>">
+                            <?php } elseif ($attributeType == 'number') { ?>
+                                <input type="number" name="catalog_product[<?php echo $attributeName; ?>]" value="<?php echo $attributeValue; ?>">
+                            <?php } elseif ($attributeType == 'date') { ?>
+                                <input type="date" name="catalog_product[<?php echo $attributeName; ?>]" value="<?php echo $attributeValue; ?>">
+                            <?php } elseif ($attributeType == 'boolean') { ?>
+                                <select name="catalog_product[<?php echo $attributeName; ?>]">
+                                    <option value="1" <?php echo ($attributeValue == '1') ? 'selected' : ''; ?>>Yes</option>
+                                    <option value="0" <?php echo ($attributeValue == '0') ? 'selected' : ''; ?>>No</option>
+                                </select>
+                            <?php } ?>
+                        </div>
+                    <?php }
+                } else {
+                    foreach ($attributes as $attribute) {
+                        $attributeId = $attribute->getAttributeId();
+                        $attributeName = $attribute->getName();
+                        $attributeType = $attribute->getType();
+                        $attributeValue = $product->getAttributeValue($attributeId); // Fetch value if editing
+                    ?>
+                        <div class="form-group">
+                            <label><?php echo ucfirst($attributeName); ?>:</label>
+                            <?php if ($attributeType == 'text') { ?>
+                                <input type="text" name="catalog_product[<?php echo $attributeName; ?>]" value="<?php echo $attributeValue; ?>">
+                            <?php } elseif ($attributeType == 'number') { ?>
+                                <input type="number" name="catalog_product[<?php echo $attributeName; ?>]" value="<?php echo $attributeValue; ?>">
+                            <?php } elseif ($attributeType == 'date') { ?>
+                                <input type="date" name="catalog_product[<?php echo $attributeName; ?>]" value="<?php echo $attributeValue; ?>">
+                            <?php } elseif ($attributeType == 'boolean') { ?>
+                                <select name="catalog_product[<?php echo $attributeName; ?>]">
+                                    <option value="1" <?php echo ($attributeValue == '1') ? 'selected' : ''; ?>>Yes</option>
+                                    <option value="0" <?php echo ($attributeValue == '0') ? 'selected' : ''; ?>>No</option>
+                                </select>
+                            <?php } ?>
+                        </div>
+                <?php }
+                }
+                ?>
+            </div>
+
+            <hr>
+            <label for="previous images">
+
+               
+                <label for="image">Choose Images:</label>
+                <input type="file" id="image" name="catalog_product[image][]" multiple onchange="previewImages(event)">
+                <div id="image-preview-container"></div>
+
+                <?php $filepath = $product->getFilePath(); ?>
+                
+                <?php if (!empty($filepath)): ?>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+
+                        <!-- Labels Row -->
+                        <div style="display: flex; gap: 50px; align-items: center; font-weight: bold;">
+                            <span style="width: 100px;"></span> <!-- Placeholder for Image Column -->
+                            <span>Delete Image</span>
+                            <span>Banner Image</span>
+                        </div>
+
+                        <!-- Images & Inputs -->
+                        <?php foreach ($filepath as $file): ?>
+                            <?php $checked = ($product->getMainImage() == $file) ? "checked" : ""; ?>
+                            <div style="display: flex; align-items: center; gap: 50px;">
+                                <img src="<?php echo Mage::getBaseUrl() . $file ?>" height="100px" width="100px" style="border: 1px solid #ccc; margin: 5px;">
+
+                                <!-- Delete Checkbox -->
+                                <input type="checkbox" name="catalog_image_delete[images][]" value="<?= $file ?>">
+
+                                <!-- Default Image Radio -->
+                                <input type="radio" <?php echo $checked ?> name="catalog_product[default_image]" value="<?= $file ?>">
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                <button type="submit">Submit</button>
+        </form>
+    </div>
+
+
+    <script>
+        function previewImages(event) {
+            let files = event.target.files; // Get selected files
+            let previewContainer = document.getElementById("image-preview-container");
+            previewContainer.innerHTML = ""; // Clear previous previews
+
+            if (files.length === 0) return; // No files selected
+
+            for (let i = 0; i < files.length; i++) {
+                let file = files[i];
+                let reader = new FileReader();
+
+                reader.onload = function(e) {
+                    // Create a div for each image with a radio button
+                    let imageWrapper = document.createElement("div");
+                    imageWrapper.style.display = "flex";
+                    imageWrapper.style.alignItems = "center";
+                    imageWrapper.style.marginBottom = "10px";
+
+                    // Create radio button
+                    let radioInput = document.createElement("input");
+                    radioInput.type = "radio";
+                    radioInput.name = "catalog_product[default_image]";
+                    radioInput.value = file.name;
+                    // if (i === 0) radioInput.checked = true; // First image selected by default
+
+                    // Create image preview
+                    let img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.style.width = "100px";
+                    img.style.height = "100px";
+                    img.style.objectFit = "cover";
+                    img.style.marginLeft = "10px";
+                    img.style.border = "1px solid #ccc";
+
+                    // Append radio button and image to wrapper
+                    imageWrapper.appendChild(radioInput);
+                    imageWrapper.appendChild(img);
+
+                    // Append wrapper to container
+                    previewContainer.appendChild(imageWrapper);
+                };
+
+                reader.readAsDataURL(file); // Read file as Data URL
+            }
+        }
+    </script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+<!-- <h1>dropdown </h1> -->
+ <?php $data = $this->getdata();
+ $options = $data['filter_option'];
+ ?>
+
+
+
+<select name="cars" id="cars">
+    <?php foreach ($data['filter_option'] as $status): ?>
+        <option value="<?php echo $status ?>"><?php echo $status ?></option>
+
+    <?php endforeach ?>
+  <!-- <option value="saab">Saab</option>
+  <option value="mercedes">Mercedes</option>
+  <option value="audi">Audi</option> -->
+</select>

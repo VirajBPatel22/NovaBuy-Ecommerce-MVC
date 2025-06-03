@@ -1,0 +1,22 @@
+<!-- <head> -->
+<!-- <script src = toString( -->
+<?php
+//  $js = $this->getJs();
+//  $css = $this->getCss();
+?>
+<?php foreach ($this->getJs() as $js): ?>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="<?php echo Mage::getBaseUrl() . 'js/' . $js ?>"></script>
+<?php endforeach; ?>
+<?php foreach ($this->getCss() as $css): ?>
+    <link rel="stylesheet" href="<?php echo Mage::getBaseUrl() . 'css/' . $css . '?v=7' ?>">
+    </script>
+<?php endforeach; ?>
+
+
+<!-- <script src = " <? //php echo $js 
+                        ?>"></script>
+    <style style="<? //php echo $Css
+                    ?>"></style>   -->
+<!-- </head> -->

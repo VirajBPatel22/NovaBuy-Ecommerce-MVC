@@ -1,0 +1,100 @@
+
+<!-- <h1>message</h1> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Message Display System</title>
+    <style>
+        .message-container {
+            max-width: 500px;
+            margin: 20px auto;
+            font-family: 'Arial', sans-serif;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .message {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 16px;
+            animation: slideIn 0.5s ease;
+        }
+
+        .message-success {
+            background-color: #e6f3e6;
+            border-left: 5px solid #4CAF50;
+            color: #2E7D32;
+        }
+
+        .message-warning {
+            background-color: #fff4e5;
+            border-left: 5px solid #FF9800;
+            color: #F57C00;
+        }
+
+        .message-error {
+            background-color: #ffebee;
+            border-left: 5px solid #F44336;
+            color: #D32F2F;
+        }
+
+        .message-icon {
+            font-size: 24px;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <?php
+    // Your existing message retrieval code
+    $success_msg = $this->getModel()
+    ->getMessage("success");
+    // echo $success_msg;
+    // die;
+    $error_msg = $this->getModel()->getMessage("error");
+    $warning_msg = $this->getModel()->getMessage("warning");
+    // echo "<pre>";
+    // print_r($success_msg);
+    // // print_r($_SESSION);
+    // echo "</pre>";
+    ?>
+
+    <!-- <div class="message-container"> -->
+        <?php if (!empty($success_msg)): ?>
+            <div class="message message-success">
+                <div class="message-icon">✅</div>
+                <div class="message-text"><?php echo htmlspecialchars($success_msg); ?></div>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($warning_msg)): ?>
+            <div class="message message-warning">
+                <div class="message-icon">⚠️</div>
+                <div class="message-text"><?php echo htmlspecialchars($warning_msg); ?></div>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($error_msg)): ?>
+            <div class="message message-error">
+                <div class="message-icon">❌</div>
+                <div class="message-text"><?php echo htmlspecialchars($error_msg); ?></div>
+            </div>
+        <?php endif; ?>
+    <!-- </div> -->
+</body>
+</html>

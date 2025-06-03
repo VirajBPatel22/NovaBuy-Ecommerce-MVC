@@ -1,0 +1,61 @@
+<?php
+$upcommingevent = $this->upcommingevent();
+$pastevent = $this->pastevent();
+
+?>
+
+<h2>past event</h2>
+<table>
+    <tr>
+        <th>event_id</th>
+        <th>title</th>
+        <th>description</th>
+        <th>date</th>
+        <th>location</th>
+        <th>capacity</th>
+        <?php foreach ($pastevent as $event): ?>
+    </tr>
+    <td><?php echo $event->getEventId() ?></td>
+    <td><?php echo $event->getTitle() ?></td>
+    <td><?php echo $event->getDescription() ?></td>
+    <td><?php echo $event->getDate() ?></td>
+    <td><?php echo $event->getLocation() ?></td>
+    <td><?php echo $event->getCapacity() ?></td>
+    <tr>
+    <?php endforeach; ?>
+</table>
+<h2>upcomming events</h2>
+<table>
+    <tr>
+        <th>event_id</th>
+        <th>title</th>
+        <th>description</th>
+        <th>date</th>
+        <th>location</th>
+        <th>capacity</th>
+        <th>register</th>
+        <?php foreach ($upcommingevent as $event): ?>
+    </tr>
+    <td><?php echo $event->getEventId() ?></td>
+    <td><?php echo $event->getTitle() ?></td>
+    <td><?php echo $event->getDescription() ?></td>
+    <td><?php echo $event->getDate() ?></td>
+    <td><?php echo $event->getLocation() ?></td>
+    <td><?php echo $event->getCapacity() ?></td>
+
+    <td>
+        <?php if ($event->isregister()) {
+            } else { ?>
+            <a href="<?php echo $this->getUrl('*/*/register') . '/?id=' . $event->getEventId(); ?>"
+                onclick="return confirm('Are you sure you want to register for this event?');">register</a>
+    </td>
+
+<?php } ?>
+
+
+<tr>
+<?php endforeach; ?>
+
+
+</tr>
+</table>

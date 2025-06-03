@@ -1,0 +1,15 @@
+<?php $customerData = $this->getDetail();
+?>
+<div class="card p-3">
+    <h4 class="mb-3">User Details</h4>
+    <div class="row">
+        <div class="col-md-6"><strong>Name:</strong><?php echo $customerData->getFirstName() . " " . $customerData->getLastName(); ?></div>
+        <div class="col-md-6"><strong>Email:</strong><?php echo $customerData->getEmail(); ?></div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-6"><strong>Phone:</strong> <?php echo $customerData->getPhone(); ?></div>
+        <div class="col-md-6"><strong>Member Since:</strong><?php echo $customerData->getCreatedAt(); ?></div>
+    </div>
+    <button class="btn btn-primary mt-3" id="updateUserBtn">Update</button>
+
+</div>

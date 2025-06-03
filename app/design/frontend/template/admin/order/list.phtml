@@ -1,0 +1,79 @@
+<?php 
+$order_data = $this->listdata();
+$this->getChildHtml("toolbar");
+?>
+<style>
+    .export-container {
+    margin-bottom: 15px;
+}
+
+.export-btn {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.export-btn:hover {
+    background-color: #45a049;
+}
+</style>
+<body>
+<div class="order-container">
+        <h2 class="order-heading">Order List</h2>
+        <!-- Add Export to CSV button -->
+        <div class="export-container">
+            <a href="<?php echo $this->getUrl('*/*/exportCsv'); ?>" class="export-btn">Export to CSV</a>
+        </div>
+       
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Order Number</th>
+                    <th>Customer Id</th>
+                    <th>Total Amount</th>
+                    <th>Email</th>
+                    <th>Order Status</th>
+                    <th>Shipping Method</th>
+                    <th>Payment Method</th>
+                    <th>View Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($order_data as $_order): ?>
+                    <tr>
+                        <td><?php echo $_order->getOrderId(); ?></td>
+                        <td><?php echo $_order->getOrderNumber(); ?></td>
+                        <td><?php echo $_order->getCustomerId(); ?></td>
+                        <td><?php echo $_order->getTotalAmount(); ?></td>
+                        <td><?php echo $_order->getEmail(); ?></td>
+                        <td>
+                            <form method="POST" action="<?php echo $this->getUrl("*/*/updateStatus"); ?>">
+                            <select  name="order_status" class="status-dropdown">
+                            
+                                    <option value="pending" <?php echo $_order->getOrderStatus() == 'pending' ? 'selected' : ''; ?>>Pending</option>
+                                    <option value="shipped" <?php echo $_order->getOrderStatus() == 'shipped' ? 'selected' : ''; ?>>Shipped</option>
+                                    <option value="delivered" <?php echo $_order->getOrderStatus() == 'delivered' ? 'selected' : ''; ?>>Delivered</option>
+                                    <option value="cancelled" <?php echo $_order->getOrderStatus() == 'cancelled' ? 'selected' : ''; ?>>Cancelled</option>
+                                    <!-- Add more options as needed -->
+                                </select>
+                                <input type="hidden" name="order_id" value="<?php echo $_order->getOrderId(); ?>" />
+                                <button type="submit" class="view-btn">Update</button>
+                            </form>
+                        </td>
+                        <td><?php echo $_order->getShippingMethod(); ?></td>
+                        <td><?php echo $_order->getPaymentMethod(); ?></td>
+                        <td><a href="<?php echo $this->getUrl("*/*/view")?>/?order_id=<?php echo $_order->getOrderId();?>"
+                               class="view-btn">View</a></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

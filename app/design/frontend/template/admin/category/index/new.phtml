@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Category Form</title>
+    <link rel="stylesheet" href="style.css">
+    <?php $this->getCategory(); ?>
+</head>
+<body>
+    <div class="form-container">
+        <!-- Back link to category list -->
+        <a class="back" href="<?php echo $this->getUrl('admin/category_index/list'); ?>">
+            <i class="fa fa-arrow-left"></i> Back
+        </a>
+        <?php 
+            // Retrieve the current category data (for editing) or a new category model (for adding)
+            $category = $this->getCategory();
+            // Retrieve all available parent categories using your built function
+            $categories = $this->getParentcategory();
+            // If no parent is set, $selectedParentId will be null
+            $selectedParentId = $category->getParentId();
+        ?>
+        <form method="POST" action="<?php echo $this->getUrl('*/*/save'); ?>">
+            <!-- Hidden field to hold the category ID -->
+            <input type="hidden" name="catalog_category[category_id]" value="<?php echo $category->getCategoryId(); ?>">
+            
+            <!-- Category Name -->
+            <div class="form-group">
+                <label for="name">Category Name:</label>
+                <input type="text" id="name" name="catalog_category[name]" required 
+                    value="<?php echo $category->getName(); ?>">
+            </div>
+            
+            <!-- Description -->
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="catalog_category[description]"><?php echo $category->getDescription(); ?></textarea>
+            </div>
+            
+            <!-- Parent Category Dropdown -->
+            <div class="form-group">
+                <label for="parent_id">Parent Category:</label>
+                <select name="catalog_category[parent_id]" id="parent_id">
+                    <!-- Placeholder option: if no parent is selected, value will be empty (interpreted as null) -->
+                    <option value="" <?php echo ($selectedParentId === 1 || $selectedParentId === "") ? 'selected' : ''; ?>>---Select---</option>
+                    <?php if (!empty($categories) && is_array($categories)): ?>
+                        <?php foreach ($categories as $parentCategory): ?>
+                            <option value="<?php echo $parentCategory->getCategoryId(); ?>"
+                                <?php echo ($selectedParentId == $parentCategory->getCategoryId()) ? 'selected' : ''; ?>>
+                                <?php echo $parentCategory->getName(); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+            </div>
+            
+            <!-- Submit Button -->
+            <div class="form-group">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<?php
+$data = $this->CategoryData();
+$customer = $this->customerDetail();
+?>
+
+<html lang="en">
+<script>
+    // var filter = {
+    //     xyz:function(){
+    //         alert('1');
+    //         this.p=5;
+
+    //     },
+    //     abc:function(){
+    //         alert(this.p);
+
+    //     }
+
+    // }
+    // filter.xyz();
+    // filter.abc();
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Store</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Swiper JS CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.3.2/swiper-bundle.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="sticky-top">
+        <div class="container-fluid">
+            <div class="row py-2 bg-light">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="logo">
+                            <!-- <a href="#"> -->
+                                <img src="<?php echo Mage::getBaseUrl() . '/Media/logo/image.png' ?>" alt="Store Logo" height="50">
+                            <!-- </a> -->
+                        </div>
+
+                        <nav class="navbar navbar-expand-lg">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#categoryMenu">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="categoryMenu">
+                                <ul class="navbar-nav">
+                                    <?php foreach ($data as $category1) {
+                                        if ($category1->getParentId() == 1) { ?>
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                                    <?php print($category1->getName()); ?>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <?php foreach ($data as $subcategory) { ?>
+                                                        <?php if ($subcategory->getParentId() == $category1->getCategoryId()) { ?>
+
+                                                            <li><a class="dropdown-item" href="<?php echo $this->getUrl('catalog/product/list'); ?>/?id=<?php echo $subcategory->getCategoryId(); ?>">
+                                                                    <?php print($subcategory->getName()); ?>
+
+                                                                </a></li>
+                                                    <?php }
+                                                    } ?>
+
+                                                </ul>
+                                            </li>
+
+                                    <?php }
+                                    }
+                                    ?>
+                                    <li class="nav-item droupdown">
+                                        <a href="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </nav>
+
+                        <div class="user-actions d-flex gap-3 cartdata">
+                            <a href="<?php echo $this->getUrl('//'); ?>" class="btn btn-outline-dark">
+                                <i class="fas fa-home me-1"></i> Home
+                            </a>
+                            <?php if ($customer->getCustomerId()): ?>
+
+                                <!-- <li class="nav-item dropdown"> -->
+                                <a class="nav-link dropdown-toggle icon-text" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                        class="bi bi-person" viewBox="0 0 16 16">
+                                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM8 9a5.507 5.507 0 0 0-4.546 2.916.5.5 0 0 0 .433.749h8.226a.5.5 0 0 0 .433-.749A5.507 5.507 0 0 0 8 9z" />
+                                    </svg>
+                                    <?php echo $customer->getFirstName(); ?> <!-- Show user's first name -->
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="<?php echo $this->getUrl('customer/account_profile/dashboard'); ?>">Profile</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo $this->getUrl('checkout/order/yourorder'); ?>">your order</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo $this->getUrl('customer/account/logout'); ?>">Logout</a></li>
+                                </ul>
+                                <!-- </li> -->
+
+
+
+                            <?php else: ?>
+                                <a href="<?php echo $this->getUrl("customer/account/login") ?>" class="btn btn-outline-dark">
+                                    <i class="fas fa-user me-1"></i> Login
+                                </a>
+                            <?php endif ?>
+
+                            <!-- <?  // php }
+                                    ?> -->
+
+                            <a href="<?php echo $this->getUrl('checkout/cart/index'); ?>" class="btn btn-outline-dark position-relative">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cartcount">
+                                    <?php // echo $this->getcount(); ?>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+</body>
+
+</html>
